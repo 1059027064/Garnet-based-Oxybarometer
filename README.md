@@ -172,6 +172,14 @@ Prediction/train_dataset/
 ## Running Prediction
 
 
+```bash
+conda activate tabpfn_shap
+cd Prediction
+python predict.py
+```
+
+or
+
 ```text
 Double click: run_prediction.bat
 ```
