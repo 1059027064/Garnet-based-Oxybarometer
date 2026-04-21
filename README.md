@@ -16,49 +16,50 @@ A shared Conda environment is provided:
 ## Repository Structure
 
 ```text
-Project/
-├── Train/
-│   ├── dataset/
-│   │   ├── df_fO2_test.xlsx
-│   │   ├── df_fO2_train.xlsx
-│   │   ├── df_P_T_test.xlsx
-│   │   ├── df_P_T_train.xlsx
-│   │   ├── predicted-All.xlsx
-│   │   └── predicted-Mantle.xlsx
-│   ├── images/
-│   ├── models/
-│   ├── results/
-│   │   └── SHAP_results/
-│   └── Model Training.ipynb
+.
+├── Code/
+│   ├── Train/
+│   │   ├── dataset/
+│   │   │   ├── df_fO2_test.xlsx
+│   │   │   ├── df_fO2_train.xlsx
+│   │   │   ├── df_P_T_test.xlsx
+│   │   │   ├── df_P_T_train.xlsx
+│   │   │   ├── predicted-Diamond.xlsx
+│   │   │   └── predicted-Mantle.xlsx
+│   │   ├── images/
+│   │   ├── models/
+│   │   ├── results/
+│   │   │   └── SHAP_results/
+│   │   └── Model Training.ipynb
+│   │
+│   ├── Prediction/
+│   │   ├── input/
+│   │   │   └── input_samples.xlsx
+│   │   ├── models/
+│   │   │   ├── P_model_tabpfn.pkl
+│   │   │   ├── T_model_tabpfn.pkl
+│   │   │   └── fO2_model_tabpfn.pkl
+│   │   ├── train_dataset/
+│   │   │   ├── df_P_T_train.xlsx
+│   │   │   └── df_fO2_train.xlsx
+│   │   ├── output/
+│   │   ├── images/
+│   │   ├── predict.py
+│   │   └── run_prediction.bat
+│   │
+│   └── environment_full.yml
 │
-├── Prediction/
-│   ├── input/
-│   │   └── input_samples.xlsx
-│   ├── models/
-│   │   ├── P_model_tabpfn.pkl
-│   │   ├── T_model_tabpfn.pkl
-│   │   └── fO2_model_tabpfn.pkl
-│   ├── train_dataset/
-│   │   ├── df_P_T_train.xlsx
-│   │   └── df_fO2_train.xlsx
-│   ├── output/
-│   ├── images/
-│   ├── predict.py
-│   └── run_prediction.bat
-│
-├── environment_full.yml
-└── README.md
+├── README.md
+└── Dataset.xlsx
 ```
 
 ---
 
 ## Overview
 
-- Machine learning models for P, T, and logfO2 prediction  
-- SHAP-based interpretability  
-- Standalone prediction pipeline  
-- OOD (out-of-distribution) detection  
-- PCA visualization of prediction domain  
+- Environment Setup  
+- Training Workflow
+- Prediction Workflow
 
 ---
 
@@ -124,24 +125,8 @@ Train/dataset/
 Prediction/input/input_samples.xlsx
 ```
 
-### Models
 
-```text
-Prediction/models/
-```
-
-### Training data (OOD)
-
-```text
-Prediction/train_dataset/
-```
-
-- df_P_T_train.xlsx  
-- df_fO2_train.xlsx  
-
----
-
-## Input Format
+Input Format
 
 - Si_Grt  
 - Ti_Grt  
@@ -154,9 +139,24 @@ Prediction/train_dataset/
 - Na_Grt  
 
 
----
+### Models
 
-## Prediction Pipeline
+```text
+Prediction/models/
+```
+
+
+### Training data (OOD)
+
+```text
+Prediction/train_dataset/
+```
+
+- df_P_T_train.xlsx  
+- df_fO2_train.xlsx  
+
+
+### Prediction Pipeline
 
 1. Read input  
 2. Convert to garnet cations  
@@ -167,9 +167,8 @@ Prediction/train_dataset/
 7. OOD detection  
 8. PCA visualization  
 
----
 
-## Running Prediction
+### Running Prediction
 
 
 ```bash
@@ -184,9 +183,8 @@ or
 Double click: run_prediction.bat
 ```
 
----
 
-## Output
+### Output
 
 ```text
 Prediction/output/
@@ -200,9 +198,8 @@ Includes:
 - ΔIW, ΔFMQ, ΔNNO, ΔMH  
 - OOD Categories 
 
----
 
-## OOD Categories
+### OOD Categories
 
 - In-Distribution  
 - P-T OOD  
