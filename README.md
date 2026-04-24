@@ -1,6 +1,6 @@
 # Garnet-based Machine Learning Oxybarometer
 
-> **System Notice:** This repository was developed and tested under **Windows**. Compatibility with macOS or Linux has not been comprehensively verified. This is primarily because the **TabPFN** framework used in this project performs best with **GPU acceleration**, which is more consistently supported in Windows environments.
+> **System Notice:** This repository was developed and tested under Windows using NVIDIA GeForce RTX 4070 and RTX 2060 GPUs. Compatibility with other operating systems or hardware configurations has not been comprehensively verified.
 
 This repository provides a machine learning workflow for predicting **pressure (P)**, **temperature (T)**, and **oxygen fugacity (logfO2)** from garnet compositions.
 
