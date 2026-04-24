@@ -1,5 +1,7 @@
 # Garnet-based Machine Learning Oxybarometer
 
+> **System Notice:** This codebase is currently designed and tested for **Windows operating systems only**. Compatibility with macOS or Linux is not guaranteed.
+
 This repository provides a machine learning workflow for predicting **pressure (P)**, **temperature (T)**, and **oxygen fugacity (logfO2)** from garnet compositions.
 
 The project consists of two main components:
