@@ -202,7 +202,7 @@ Outputs include:
 
 ## Reproducibility
 
-This workflow was tested using Windows systems equipped with NVIDIA GeForce RTX 4070 and RTX 2060 GPUs for TabPFN-based models, and Intel Core i5-8300H / AMD Ryzen 9 7940HX CPUs for XGBoost and Random Forest training. The provided Conda environment file is intended to facilitate reproduction of the reported results.
+This workflow was tested using Windows systems equipped with NVIDIA GeForce RTX 4070 and RTX 2060 GPUs for TabPFN-based models, and AMD Ryzen 9 7940HX/Intel Core i5-8300H CPUs for XGBoost and Random Forest training. The provided Conda environment file is intended to facilitate reproduction of the reported results.
 
 ---
 
