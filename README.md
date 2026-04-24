@@ -1,17 +1,17 @@
 # Garnet-based Machine Learning Oxybarometer
 
-> **System Notice:** This repository was developed and tested under Windows using NVIDIA GeForce RTX 4070 and RTX 2060 GPUs. Compatibility with other operating systems or hardware configurations has not been comprehensively verified.
+> **System Notice:** This repository was developed and validated in a Windows environment using NVIDIA CUDA-enabled GPUs (GeForce RTX 4070 and RTX 2060). Compatibility with other operating systems or hardware configurations has not been comprehensively verified.
 
 This repository provides a machine learning workflow for predicting **pressure (P)**, **temperature (T)**, and **oxygen fugacity (logfO2)** from garnet compositions.
 
-The project consists of two main components:
+The repository contains two main components:
 
-- `Train/`: model training, evaluation, SHAP analysis, and figure generation  
-- `Prediction/`: standalone prediction tool using pre-trained models  
+- `Code/Train/` — model training, evaluation, SHAP analysis, and figure generation  
+- `Code/Prediction/` — standalone prediction workflow using pre-trained models  
 
-A shared Conda environment is provided:
+A shared Conda environment file is provided:
 
-- `environment_full.yml`
+- `Code/environment_full.yml`
 
 ---
 
@@ -22,12 +22,6 @@ A shared Conda environment is provided:
 ├── Code/
 │   ├── Train/
 │   │   ├── dataset/
-│   │   │   ├── df_fO2_test.xlsx
-│   │   │   ├── df_fO2_train.xlsx
-│   │   │   ├── df_P_T_test.xlsx
-│   │   │   ├── df_P_T_train.xlsx
-│   │   │   ├── predicted-Diamond.xlsx
-│   │   │   └── predicted-Mantle.xlsx
 │   │   ├── images/
 │   │   ├── models/
 │   │   ├── results/
@@ -36,14 +30,8 @@ A shared Conda environment is provided:
 │   │
 │   ├── Prediction/
 │   │   ├── input/
-│   │   │   └── input_samples.xlsx
 │   │   ├── models/
-│   │   │   ├── P_model_tabpfn.pkl
-│   │   │   ├── T_model_tabpfn.pkl
-│   │   │   └── fO2_model_tabpfn.pkl
 │   │   ├── train_dataset/
-│   │   │   ├── df_P_T_train.xlsx
-│   │   │   └── df_fO2_train.xlsx
 │   │   ├── output/
 │   │   ├── images/
 │   │   ├── predict.py
@@ -51,41 +39,41 @@ A shared Conda environment is provided:
 │   │
 │   └── environment_full.yml
 │
-├── README.md
-└── Dataset.xlsx
+├── Dataset.xlsx
+└── README.md
 ```
 
 ---
 
 ## Overview
 
-- Environment Setup  
-- Training Workflow
-- Prediction Workflow
+1. Environment setup  
+2. Model training  
+3. Prediction workflow  
 
 ---
 
 ## Environment Setup
 
-### Step 1. Create environment
+### Step 1. Create the Conda environment
 
 ```bash
-conda env create -f environment_full.yml
+conda env create -f Code/environment_full.yml
 ```
 
-### Step 2. Activate environment
+### Step 2. Activate the environment
 
 ```bash
 conda activate tabpfn_shap
 ```
 
-### Step 3. Install PyTorch
+### Step 3. Install PyTorch (CUDA 11.8)
 
 ```bash
 pip install torch==2.7.1 torchvision==0.22.1 torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cu118
 ```
 
-### Step 4. Verify installation
+### Step 4. Verify GPU availability
 
 ```bash
 python -c "import torch; print(torch.__version__); print(torch.version.cuda); print(torch.cuda.is_available())"
@@ -93,123 +81,133 @@ python -c "import torch; print(torch.__version__); print(torch.version.cuda); pr
 
 ---
 
-## Training Workflow
+## Model Training Workflow
+
+Training notebook:
 
 ```text
-Train/Model Training.ipynb
+Code/Train/Model Training.ipynb
 ```
 
 ### Required datasets
 
 ```text
-Train/dataset/
+Code/Train/dataset/
 ```
 
-- df_P_T_train.xlsx  
-- df_P_T_test.xlsx  
-- df_fO2_train.xlsx  
-- df_fO2_test.xlsx  
+Files include:
 
-### Outputs
+- `df_P_T_train.xlsx`  
+- `df_P_T_test.xlsx`  
+- `df_fO2_train.xlsx`  
+- `df_fO2_test.xlsx`
 
-- Train/models/  
-- Train/results/  
-- Train/images/  
-- Train/results/SHAP_results/  
+### Training outputs
+
+Generated files will be saved to:
+
+- `Code/Train/models/`  
+- `Code/Train/results/`  
+- `Code/Train/images/`  
+- `Code/Train/results/SHAP_results/`
 
 ---
 
 ## Prediction Workflow
 
-### Input
+### Input file
 
 ```text
-Prediction/input/input_samples.xlsx
+Code/Prediction/input/input_samples.xlsx
 ```
 
+### Required input variables
 
-Input Format
+- `Si_Grt`  
+- `Ti_Grt`  
+- `Al_Grt`  
+- `Cr_Grt`  
+- `Fe_Grt`  
+- `Mn_Grt`  
+- `Mg_Grt`  
+- `Ca_Grt`  
+- `Na_Grt`
 
-- Si_Grt  
-- Ti_Grt  
-- Al_Grt  
-- Cr_Grt  
-- Fe_Grt  
-- Mn_Grt  
-- Mg_Grt  
-- Ca_Grt  
-- Na_Grt  
-
-
-### Models
+### Pre-trained models
 
 ```text
-Prediction/models/
+Code/Prediction/models/
 ```
 
-
-### Training data (OOD)
+### Reference training datasets (for OOD detection)
 
 ```text
-Prediction/train_dataset/
+Code/Prediction/train_dataset/
 ```
 
-- df_P_T_train.xlsx  
-- df_fO2_train.xlsx  
+Files include:
 
+- `df_P_T_train.xlsx`  
+- `df_fO2_train.xlsx`
 
-### Prediction Pipeline
+### Prediction pipeline
 
-1. Read input  
-2. Convert to garnet cations  
-3. Apply cation filter  
-4. Predict P, T, logfO2  
-5. Calculate IW, FMQ, NNO, MH  
-6. Compute ΔIW, ΔFMQ, ΔNNO, ΔMH  
-7. OOD detection  
-8. PCA visualization  
+1. Read input data  
+2. Convert oxide compositions to garnet cations  
+3. Apply cation filtering  
+4. Predict **P**, **T**, and **logfO2**  
+5. Calculate reference oxygen buffers (**IW**, **FMQ**, **NNO**, **MH**)  
+6. Compute ΔIW, ΔFMQ, ΔNNO, and ΔMH  
+7. Perform out-of-distribution (OOD) detection  
+8. Generate PCA visualization
 
-
-### Running Prediction
-
+### Run prediction
 
 ```bash
 conda activate tabpfn_shap
-cd Prediction
+cd Code/Prediction
 python predict.py
 ```
 
-or
+or run:
 
 ```text
-Double click: run_prediction.bat
+run_prediction.bat
 ```
 
+### Output files
 
-### Output
+Results will be written to:
 
 ```text
-Prediction/output/
-Prediction/images/
+Code/Prediction/output/
+Code/Prediction/images/
 ```
 
-Includes:
+Outputs include:
 
-- P, T, logfO2  
-- IW, FMQ, NNO, MH  
+- Predicted **P**, **T**, **logfO2**  
+- Calculated **IW**, **FMQ**, **NNO**, **MH**  
 - ΔIW, ΔFMQ, ΔNNO, ΔMH  
-- OOD Categories 
+- OOD classification results
 
-
-### OOD Categories
+### OOD categories
 
 - In-Distribution  
 - P-T OOD  
 - Feature OOD  
-- Feature range OOD  
+- Feature Range OOD  
+
+---
+
+## Reproducibility
+
+This workflow was tested using Windows systems equipped with NVIDIA GeForce RTX 4070 and RTX 2060 GPUs. The provided Conda environment file is intended to facilitate reproduction of the reported results.
 
 ---
 
 ## Citation
 
-- 
+If you use this repository in academic research, please cite the associated publication.
+
+*Citation details will be updated upon publication.*
